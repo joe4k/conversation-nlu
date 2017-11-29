@@ -116,7 +116,7 @@ app.post( '/api/message', function(req, res) {
 	  }
           var stateList = entities.map(function(entry) {
 		if(entry.type == "Location") {
-		 if(!entry.disambiguation) {
+		 if(entry.disambiguation && entry.disambiguation.subtype && entry.disambiguation.subtype.indexOf("USState") > -1) {
 		  return(entry.text);
 		 }
 		}
