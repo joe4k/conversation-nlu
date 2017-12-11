@@ -39,7 +39,7 @@ var conversation = watson.conversation( {
   url: 'https://gateway.watsonplatform.net/conversation/api',
   username: process.env.CONVERSATION_USERNAME || '<username>',
   password: process.env.CONVERSATION_PASSWORD || '<password>',
-  version_date: '2017-02-03',
+  version_date: '2017-05-26',
   version: 'v1'
 } );
 
@@ -116,8 +116,10 @@ app.post( '/api/message', function(req, res) {
 	  }
           var stateList = entities.map(function(entry) {
 		if(entry.type == "Location") {
-		 if(entry.disambiguation && entry.disambiguation.subtype && entry.disambiguation.subtype.indexOf("USState") > -1) {
-		  return(entry.text);
+		 if(entry.disambiguation && entry.disambiguation.subtype) {
+		   if(entry.disambiguation.subtype.indexOf("USState") > -1 || entry.disambiguation.subtype.indexOf("StateOrCounty") > -1) {
+		    return(entry.text);
+		   }
 		 }
 		}
           });
